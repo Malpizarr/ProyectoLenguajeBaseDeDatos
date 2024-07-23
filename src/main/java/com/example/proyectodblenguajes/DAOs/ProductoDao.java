@@ -1,14 +1,15 @@
 package com.example.proyectodblenguajes.DAOs;
 
 import com.example.proyectodblenguajes.Models.Producto;
+import oracle.jdbc.OracleTypes;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ProductoDao {
@@ -73,4 +74,31 @@ public class ProductoDao {
             callableStatement.executeUpdate();
         }
     }
+
+
+    //TODO: Cambiar el retorno del cursor para que retorne y utilizar REF para devolver la lista de productos
+//    public List<Producto> listarTodosLosProductos() throws SQLException {
+//        List<Producto> productos = new ArrayList<>();
+//        String sql = "{call LISTAR_TODOS_LOS_PRODUCTOS(?)}";
+//
+//        try (Connection connection = DataSourceUtils.getConnection(dbconfig);
+//             CallableStatement callableStatement = connection.prepareCall(sql)) {
+//            callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
+//            callableStatement.execute();
+//
+//            try (ResultSet rs = (ResultSet) callableStatement.getObject(1)) {
+//                while (rs.next()) {
+//                    Producto producto = new Producto();
+//                    producto.setId(rs.getInt("id_producto"));
+//                    producto.setNombre(rs.getString("nombre"));
+//                    producto.setDescripcion(rs.getString("descripcion"));
+//                    producto.setPrecio(rs.getDouble("precio"));
+//                    producto.setFechaCreacion(rs.getTimestamp("fecha_creacion"));
+//                    productos.add(producto);
+//                }
+//            }
+//        }
+//        return productos;
+//    }
 }
+
