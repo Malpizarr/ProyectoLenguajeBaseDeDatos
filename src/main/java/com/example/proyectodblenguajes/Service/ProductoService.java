@@ -30,7 +30,7 @@ public class ProductoService {
         productoDao.eliminarProducto(idProducto);
     }
 
-//    public List<Producto> listarTodosLosProductos() throws SQLException {
-//        return productoDao.listarTodosLosProductos();
-//    }
+    public List<Producto> listarTodosLosProductos() throws SQLException {
+        return productoDao.listarTodosLosProductos();
+    }
 }

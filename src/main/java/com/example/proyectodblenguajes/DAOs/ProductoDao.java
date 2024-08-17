@@ -75,30 +75,29 @@ public class ProductoDao {
         }
     }
 
+    
+    public List<Producto> listarTodosLosProductos() throws SQLException {
+        List<Producto> productos = new ArrayList<>();
+        String sql = "{call LISTAR_TODOS_LOS_PRODUCTOS(?)}";
 
-    //TODO: Cambiar el retorno del cursor para que retorne y utilizar REF para devolver la lista de productos
-//    public List<Producto> listarTodosLosProductos() throws SQLException {
-//        List<Producto> productos = new ArrayList<>();
-//        String sql = "{call LISTAR_TODOS_LOS_PRODUCTOS(?)}";
-//
-//        try (Connection connection = DataSourceUtils.getConnection(dbconfig);
-//             CallableStatement callableStatement = connection.prepareCall(sql)) {
-//            callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
-//            callableStatement.execute();
-//
-//            try (ResultSet rs = (ResultSet) callableStatement.getObject(1)) {
-//                while (rs.next()) {
-//                    Producto producto = new Producto();
-//                    producto.setId(rs.getInt("id_producto"));
-//                    producto.setNombre(rs.getString("nombre"));
-//                    producto.setDescripcion(rs.getString("descripcion"));
-//                    producto.setPrecio(rs.getDouble("precio"));
-//                    producto.setFechaCreacion(rs.getTimestamp("fecha_creacion"));
-//                    productos.add(producto);
-//                }
-//            }
-//        }
-//        return productos;
-//    }
+        try (Connection connection = DataSourceUtils.getConnection(dbconfig);
+             CallableStatement callableStatement = connection.prepareCall(sql)) {
+            callableStatement.registerOutParameter(1, OracleTypes.CURSOR);
+            callableStatement.execute();
+
+            try (ResultSet rs = (ResultSet) callableStatement.getObject(1)) {
+                while (rs.next()) {
+                    Producto producto = new Producto();
+                    producto.setId(rs.getInt("id_producto"));
+                    producto.setNombre(rs.getString("nombre"));
+                    producto.setDescripcion(rs.getString("descripcion"));
+                    producto.setPrecio(rs.getDouble("precio"));
+                    producto.setFechaCreacion(rs.getTimestamp("fecha_creacion"));
+                    productos.add(producto);
+                }
+            }
+        }
+        return productos;
+    }
 }
 

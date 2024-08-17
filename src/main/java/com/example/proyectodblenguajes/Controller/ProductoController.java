@@ -51,16 +51,16 @@ public class ProductoController {
         }
     }
 
-//    @GetMapping("/productos")
-//    public ResponseEntity<List<Producto>> listarTodosLosProductos() {
-//        try {
-//            List<Producto> productos = productoService.listarTodosLosProductos();
-//            return new ResponseEntity<>(productos, HttpStatus.OK);
-//        } catch (SQLException e) {
-//            System.out.println("Error listando productos: {}" + e.getMessage() + e);
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @GetMapping("/productos")
+    public ResponseEntity<List<Producto>> listarTodosLosProductos() {
+        try {
+            List<Producto> productos = productoService.listarTodosLosProductos();
+            return new ResponseEntity<>(productos, HttpStatus.OK);
+        } catch (SQLException e) {
+            System.out.println("Error listando productos: {}" + e.getMessage() + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
     @DeleteMapping("/{idProducto}")
     public ResponseEntity<Void> eliminarProducto(@PathVariable int idProducto) {
