@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class CategoriaService {
@@ -27,5 +28,9 @@ public class CategoriaService {
 
     public void eliminarCategoria(int id) throws SQLException {
         categoriaDao.eliminarCategoria(id);
+    }
+
+    public List<Categoria> listarTodasLasCategorias() throws SQLException {
+        return categoriaDao.listarTodasLasCategorias();
     }
 }

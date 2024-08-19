@@ -1,0 +1,170 @@
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #007BFF;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+header #user-info {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+header #logoutButton {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #DC3545;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+header #logoutButton:hover {
+    background-color: #c82333;
+}
+
+
+#admin-actions {
+    background-color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+#admin-actions button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+#admin-actions button:hover {
+    background-color: #0056b3;
+}
+
+
+#admin-container {
+    padding: 20px;
+}
+
+.user, .product, .order {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user h3, .product h3, .order h3 {
+    margin: 0 0 10px;
+    font-size: 18px;
+}
+
+.user p, .product p, .order p {
+    margin: 5px 0;
+}
+
+.user button, .product button, .order button {
+    background-color: #28A745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.user button:hover, .product button:hover, .order button:hover {
+    background-color: #218838;
+}
+
+form {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input, form select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+form button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+form button:hover {
+    background-color: #0056b3;
+}
+
+#inventorySection {
+    margin-top: 20px;
+    display: none;
+}
+
+#inventoryTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#inventoryTable th, #inventoryTable td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+#inventoryTable th {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+#inventoryTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/categorias")
@@ -61,6 +62,17 @@ public class CategoriaController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (SQLException e) {
             System.out.println("Error eliminando categoria: {}" + e.getMessage() + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/list")
+    public ResponseEntity<List<Categoria>> listarTodasLasCategorias() {
+        try {
+            List<Categoria> categorias = categoriaService.listarTodasLasCategorias();
+            return new ResponseEntity<>(categorias, HttpStatus.OK);
+        } catch (SQLException e) {
+            System.out.println("Error listando categorias: " + e.getMessage() + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

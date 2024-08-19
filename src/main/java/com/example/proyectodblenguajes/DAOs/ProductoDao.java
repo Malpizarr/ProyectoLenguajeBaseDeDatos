@@ -54,7 +54,7 @@ public class ProductoDao {
     }
 
     public void actualizarProducto(Producto producto) throws SQLException {
-        String sql = "{call producto_pkg.actualizar_producto(?, ?, ?, ?, ?)}";
+        String sql = "{call actualizar_producto(?, ?, ?, ?, ?)}";
         try (Connection connection = dbconfig.getConnection();
              CallableStatement callableStatement = connection.prepareCall(sql)) {
             callableStatement.setInt(1, producto.getId());

@@ -5,10 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CategoriaDao {
@@ -62,6 +61,29 @@ public class CategoriaDao {
              CallableStatement callableStatement = connection.prepareCall(sql)) {
             callableStatement.setInt(1, idCategoria);
             callableStatement.executeUpdate();
+        }
+    }
+
+    public List<Categoria> listarTodasLasCategorias() throws SQLException {
+        String sql = "{call LISTAR_TODAS_LAS_CATEGORIAS_PRODUCTOS(?)}";
+        try (Connection connection = dbconfig.getConnection();
+             CallableStatement callableStatement = connection.prepareCall(sql)) {
+
+            callableStatement.registerOutParameter(1, Types.REF_CURSOR);
+            callableStatement.execute();
+
+            List<Categoria> categorias = new ArrayList<>();
+            try (ResultSet rs = (ResultSet) callableStatement.getObject(1)) {
+                while (rs.next()) {
+                    Categoria categoria = new Categoria();
+                    categoria.setId(rs.getInt("id_categoria"));
+                    categoria.setNombre(rs.getString("nombre"));
+                    categoria.setDescripcion(rs.getString("descripcion"));
+                    categoria.setFechaCreacion(rs.getTimestamp("fecha_creacion"));
+                    categorias.add(categoria);
+                }
+            }
+            return categorias;
         }
     }
 }
