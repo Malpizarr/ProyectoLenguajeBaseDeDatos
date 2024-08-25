@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -76,6 +77,17 @@ public class PedidoController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (SQLException e) {
             System.out.println("Error eliminando pedido: {}" + e.getMessage() + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<Pedido>> obtenerPedidosPorUsuario(@PathVariable int idUsuario) {
+        try {
+            List<Pedido> pedidos = pedidoService.obtenerPedidosPorUsuario(idUsuario);
+            return new ResponseEntity<>(pedidos, HttpStatus.OK);
+        } catch (SQLException e) {
+            System.out.println("Error obteniendo pedidos del usuario: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -7,10 +7,9 @@ import org.springframework.stereotype.Repository;
 
 
 import javax.sql.DataSource;
-import java.sql.CallableStatement;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Types;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Repository
@@ -111,7 +110,34 @@ public class PedidoDao {
             callableStatement.executeUpdate();
         }
     }
+    public List<Pedido> obtenerPedidosPorUsuario(int idUsuario) throws SQLException {
+        String sql = "SELECT * FROM pedidos WHERE id_usuario = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
+            preparedStatement.setInt(1, idUsuario);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<Pedido> pedidos = new ArrayList<>();
+
+            while (resultSet.next()) {
+                Pedido pedido = new Pedido();
+                pedido.setId(resultSet.getInt("id_pedido"));
+                pedido.setIdUsuario(resultSet.getInt("id_usuario"));
+                pedido.setIdDireccion(resultSet.getInt("id_direccion"));
+                pedido.setTotal(resultSet.getDouble("total"));
+                pedido.setIdEstado(resultSet.getInt("id_estado"));
+                pedido.setFechaCreacion(resultSet.getTimestamp("fecha_creacion"));
+                pedidos.add(pedido);
+            }
+
+            return pedidos;
+        }
+    }
+
+
 }
+
 
 
 

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Service
 public class PedidoService {
@@ -33,4 +34,9 @@ public class PedidoService {
     public void eliminarPedido(int idPedido) throws SQLException {
         pedidoDao.eliminarPedido(idPedido);
     }
+
+    public List<Pedido> obtenerPedidosPorUsuario(int idUsuario) throws SQLException {
+        return pedidoDao.obtenerPedidosPorUsuario(idUsuario);
+    }
+
 }

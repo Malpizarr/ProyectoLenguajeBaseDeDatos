@@ -13,16 +13,30 @@
     <button id="logoutButton">Logout</button>
 </header>
 
-
 <section id="admin-actions">
-    <button onclick="viewUsers()">View Users</button>
-    <button onclick="viewOrders()">View Orders</button>
-    <button onclick="viewProducts()">View Products</button>
-    <button onclick="viewInventory()">View Inventory</button>
-    <button onclick="showAddProductForm()">Add Product</button>
+    <button onclick="showSection('viewUsersSection')">Ver Usuarios</button>
+    <button onclick="showSection('viewOrdersSection')">Ver Pedidos</button>
+    <button onclick="showSection('viewProductsSection')">Ver Productos</button>
+    <button onclick="showSection('viewInventorySection')">Ver Inventario</button>
+    <button onclick="showAddProductForm()">Agregar Producto</button>
+    <button onclick="openCreateInventoryModal()">Crear Inventario</button>
 </section>
 
-<section id="admin-container"></section>
+<section id="viewUsersSection" class="section">
+    <div id="users-container"></div>
+</section>
+
+<section id="viewOrdersSection" class="section">
+    <div id="orders-container"></div>
+</section>
+
+<section id="viewProductsSection" class="section">
+    <div id="products-container"></div>
+</section>
+
+
+
+
 
 <form id="addProductForm" style="display:none;">
     <label for="addProductName">Nombre:</label>
@@ -35,6 +49,20 @@
     <select id="addProductCategory" required></select>
     <button type="submit">Agregar producto</button>
 </form>
+
+<div id="createInventoryModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeCreateInventoryModal()">&times;</span>
+        <h2>Crear Inventario</h2>
+        <form id="createInventoryForm">
+            <label for="inventoryProduct">Producto:</label>
+            <select id="inventoryProduct" required></select>
+            <label for="inventoryQuantity">Cantidad:</label>
+            <input type="number" id="inventoryQuantity" required>
+            <button type="submit">Crear Inventario</button>
+        </form>
+    </div>
+</div>
 
 <form id="editProductForm" style="display:none;">
     <input type="hidden" id="editProductId">

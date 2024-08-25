@@ -13,6 +13,8 @@ document.addEventListener('DOMContentLoaded', function() {
        if (user.rol === 'admin' && adminActions) {
            adminActions.style.display = 'block';
        }
+
+       obtenerPedidosDelUsuario(user.id);
    }
 
 
@@ -134,6 +136,36 @@ document.addEventListener('DOMContentLoaded', function() {
        });
    }
 
+    const createInventoryForm = document.getElementById('createInventoryForm');
+    if (createInventoryForm) {
+        createInventoryForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const productId = document.getElementById('inventoryProduct').value;
+            const quantity = document.getElementById('inventoryQuantity').value;
+
+            fetch('http://localhost:8080/inventario', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ idProducto: productId, cantidad: quantity })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Inventario creado exitosamente');
+                        closeCreateInventoryModal();
+                        viewInventory();
+                    } else {
+                        throw new Error('Error al crear el inventario');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al crear el inventario:', error);
+                    alert('Error al crear el inventario');
+                });
+        });
+    }
+
+    loadProductsForInventory();
+
 
 
 
@@ -173,6 +205,108 @@ document.addEventListener('DOMContentLoaded', function() {
        });
    }
 });
+
+function showSection(sectionId) {
+    // Ocultar todas las secciones
+    const sections = document.querySelectorAll('.section');
+    sections.forEach(section => {
+        section.style.display = 'none';
+    });
+
+    // Ocultar todos los formularios excepto el modal de creación de inventario
+    const forms = document.querySelectorAll('form');
+    forms.forEach(form => {
+        if (form.id !== 'createInventoryForm') {
+            form.style.display = 'none';
+        }
+    });
+
+    // Mostrar la sección seleccionada
+    const selectedSection = document.getElementById(sectionId);
+    if (selectedSection) {
+        selectedSection.style.display = 'block';
+    }
+
+    // Mostrar el formulario relevante según la sección seleccionada
+    if (sectionId === 'viewUsersSection') {
+        viewUsers();
+        document.getElementById('editUserForm').style.display = 'block';
+    } else if (sectionId === 'viewOrdersSection') {
+        viewOrders();
+        document.getElementById('editOrderForm').style.display = 'block';
+    } else if (sectionId === 'viewProductsSection') {
+        viewProducts();
+        document.getElementById('editProductForm').style.display = 'block';
+    } else if (sectionId === 'viewInventorySection') {
+        viewInventory();
+    }
+}
+
+
+
+function openCreateInventoryModal() {
+    const modal = document.getElementById('createInventoryModal');
+    modal.style.display = 'block';
+}
+
+function closeCreateInventoryModal() {
+    const modal = document.getElementById('createInventoryModal');
+    modal.style.display = 'none';
+}
+
+function loadProductsForInventory() {
+    fetch('http://localhost:8080/producto/productos')
+        .then(response => response.json())
+        .then(data => {
+            const productSelect = document.getElementById('inventoryProduct');
+            productSelect.innerHTML = '';
+            data.forEach(product => {
+                const option = document.createElement('option');
+                option.value = product.id;
+                option.textContent = product.nombre;
+                productSelect.appendChild(option);
+            });
+        })
+        .catch(error => {
+            console.error('Error al cargar los productos para inventario:', error);
+        });
+}
+
+function obtenerPedidosDelUsuario(idUsuario) {
+    fetch(`http://localhost:8080/pedidos/usuario/${idUsuario}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error al obtener los pedidos');
+            }
+            return response.json();
+        })
+        .then(pedidos => {
+            const ordersTableBody = document.getElementById('orders-table-body');
+            ordersTableBody.innerHTML = '';
+
+            pedidos.forEach(pedido => {
+                const row = document.createElement('tr');
+
+                row.innerHTML = `
+                <td>${pedido.id}</td>
+                <td>$${pedido.total.toFixed(2)}</td>
+                <td>${pedido.idEstado}</td>
+                <td>${new Date(pedido.fechaCreacion).toLocaleString()}</td>
+            `;
+
+                ordersTableBody.appendChild(row);
+            });
+        })
+        .catch(error => {
+            console.error('Error al obtener los pedidos del usuario:', error);
+            alert('Error al obtener tus pedidos');
+        });
+}
 
 
 function viewInventory() {
@@ -410,7 +544,7 @@ function viewUsers() {
    fetch('http://localhost:8080/usuarios/list')
        .then(response => response.json())
        .then(data => {
-           const container = document.getElementById('admin-container');
+           const container = document.getElementById('users-container');
            container.innerHTML = '';
            data.forEach(user => {
                container.innerHTML += `<div class="user">
@@ -428,15 +562,14 @@ function viewOrders() {
    fetch('http://localhost:8080/pedidos-usuarios')
        .then(response => response.json())
        .then(data => {
-           const container = document.getElementById('admin-container');
+           const container = document.getElementById('orders-container');
            container.innerHTML = '';
            data.forEach(order => {
                container.innerHTML += `<div class="order">
                <h3>Pedido #${order.idPedido}</h3>
                <p>Total: $${order.total}</p>
                <p>Fecha: ${order.fechaCreacion}</p>
-               <button onclick="editOrder(${order.idPedido})">Edit</button>
-               <button onclick="deleteOrder(${order.idPedido})">Delete</button>
+               <button onclick="deleteOrder(${order.idPedido})">/Delete</button>
            </div>`;
            });
        });
@@ -447,7 +580,7 @@ function viewProducts() {
    fetch('http://localhost:8080/producto/productos')
        .then(response => response.json())
        .then(data => {
-           const container = document.getElementById('admin-container');
+           const container = document.getElementById('products-container');
            container.innerHTML = '';
            data.forEach(product => {
                container.innerHTML += `<div class="product">

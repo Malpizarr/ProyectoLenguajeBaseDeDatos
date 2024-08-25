@@ -11,8 +11,22 @@
     <h1>Mis Pedidos</h1>
     <div id="user-info"></div>
     <button id="logoutButton">Logout</button>
+    <button id="verProductosButton" onclick="window.location.href='productos.html'">Ver Productos</button>
 </header>
-<section id="orders-container"></section>
+<section id="orders-container">
+    <table>
+        <thead>
+        <tr>
+            <th>ID Pedido</th>
+            <th>Total</th>
+            <th>Estado</th>
+            <th>Fecha de Creación</th>
+        </tr>
+        </thead>
+        <tbody id="orders-table-body">
+        </tbody>
+    </table>
+</section>
 <script src="../js/app.js"></script>
 </body>
 </html>
