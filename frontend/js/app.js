@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 })
                 .then(user => {
                     localStorage.setItem('user', JSON.stringify(user));
-                    if (user.rol === 'admin') {
+                    if (user.role === 'admin') {
                         window.location.href = '../html/admin.html';
                     } else {
                         window.location.href = '../html/productos.html';
@@ -160,7 +160,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-
 });
 
 function viewInventory() {
