@@ -422,6 +422,14 @@ function viewCart() {
     }
 }
 
+// Función para vaciar el carrito
+function clearCart() {
+    localStorage.removeItem('cart');
+    updateCartCount();
+    alert('El carrito ha sido vaciado.');
+}
+
+// Asegúrate de que updateCartCount se llame para actualizar el conteo del carrito
 
 
 
