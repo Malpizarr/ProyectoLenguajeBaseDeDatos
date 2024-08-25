@@ -40,7 +40,7 @@ public class UsuarioService {
     public List<User> obtenerTodosLosUsuarios() throws SQLException {
         List<User> usuarios = usuarioDAO.obtenerTodosLosUsuarios();
         return usuarios.stream()
-                .map(usuario -> new User(usuario.getUsername(), usuario.getEmail(), usuario.getRole()))
+                .map(usuario -> new User(usuario.getUsername(), usuario.getEmail(), usuario.getRole(), usuario.getId()))
                 .collect(Collectors.toList());
     }
 

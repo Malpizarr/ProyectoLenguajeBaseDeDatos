@@ -1,5 +1,6 @@
 package com.example.proyectodblenguajes.Controller;
 
+import com.example.proyectodblenguajes.Models.DetallePedido;
 import com.example.proyectodblenguajes.Models.Pedido;
 import com.example.proyectodblenguajes.Service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/pedidos")
@@ -16,16 +19,21 @@ public class PedidoController {
     @Autowired
     private PedidoService pedidoService;
 
+
     @PostMapping
-    public ResponseEntity<Void> crearPedido(@RequestBody Pedido pedido) {
+    public ResponseEntity<Map<String, Integer>> crearPedido(@RequestBody Pedido pedido) {
         try {
-            pedidoService.crearPedido(pedido.getIdUsuario(), pedido.getIdDireccion(), pedido.getTotal(), pedido.getIdEstado());
-            return new ResponseEntity<>(HttpStatus.CREATED);
+            int idPedido = pedidoService.crearPedido(pedido.getIdUsuario(), pedido.getIdDireccion(), pedido.getTotal(), pedido.getIdEstado());
+            Map<String, Integer> response = new HashMap<>();
+            response.put("idPedido", idPedido);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (SQLException e) {
-            System.out.println("Error creando pedido: {}" + e.getMessage() + e);
+            System.out.println("Error creando pedido: " + e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     @GetMapping("/{idPedido}")
     public ResponseEntity<Pedido> obtenerPedido(@PathVariable int idPedido) {
@@ -46,6 +54,17 @@ public class PedidoController {
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (SQLException e) {
             System.out.println("Error actualizando pedido: {}" + e.getMessage() + e);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/{idPedido}/detalle")
+    public ResponseEntity<Void> crearDetallePedido(@PathVariable int idPedido, @RequestBody DetallePedido pedido) {
+        try {
+            pedidoService.crearDetallePedido(idPedido, pedido.getIdProducto(), pedido.getCantidad(), pedido.getPrecio());
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (SQLException e) {
+            System.out.println("Error creando detalle pedido: {}" + e.getMessage() + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

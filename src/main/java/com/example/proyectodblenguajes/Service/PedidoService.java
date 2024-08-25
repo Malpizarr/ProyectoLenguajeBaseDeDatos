@@ -13,9 +13,10 @@ public class PedidoService {
     @Autowired
     private PedidoDao pedidoDao;
 
-    public void crearPedido(int idUsuario, int idDireccion, double total, int idEstado) throws SQLException {
-        pedidoDao.crearPedido(idUsuario, idDireccion, total, idEstado);
+    public int crearPedido(int idUsuario, int idDireccion, double total, int idEstado) throws SQLException {
+        return pedidoDao.crearPedido(idUsuario, idDireccion, total, idEstado);
     }
+
 
     public Pedido obtenerPedido(int idPedido) throws SQLException {
         return pedidoDao.obtenerPedido(idPedido);
@@ -23,6 +24,10 @@ public class PedidoService {
 
     public void actualizarPedido(Pedido pedido) throws SQLException {
         pedidoDao.actualizarPedido(pedido);
+    }
+
+    public void crearDetallePedido(int idPedido, int idProducto, int cantidad, double precio) throws SQLException {
+        pedidoDao.crearDetallePedido(idPedido, idProducto, cantidad, precio);
     }
 
     public void eliminarPedido(int idPedido) throws SQLException {

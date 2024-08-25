@@ -30,6 +30,7 @@ public class auth {
 
         if (usuario != null) {
             Map<String, String> response = new HashMap<>();
+            response.put("id", String.valueOf(usuario.getId()));
             response.put("username", usuario.getNombreUsuario());
             response.put("role", usuario.getRol());
             response.put("email", usuario.getCorreoElectronico());
