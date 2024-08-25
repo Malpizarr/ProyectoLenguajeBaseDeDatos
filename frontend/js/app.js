@@ -302,10 +302,7 @@ function obtenerPedidosDelUsuario(idUsuario) {
                 ordersTableBody.appendChild(row);
             });
         })
-        .catch(error => {
-            console.error('Error al obtener los pedidos del usuario:', error);
-            alert('Error al obtener tus pedidos');
-        });
+
 }
 
 
